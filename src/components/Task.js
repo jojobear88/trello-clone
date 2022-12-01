@@ -10,6 +10,14 @@ const Container = styled.div`
     margin-bottom: 8px;
     background-color: white;
 `;
+const Title = styled.p`
+    font-weight: medium;
+    font-size: 18px;
+`;
+const Description = styled.span`
+    font-weight: normal;
+    font-size: 14px;
+`;
 export default class Task extends React.Component {
     render() {
         return (
@@ -20,7 +28,8 @@ export default class Task extends React.Component {
                     {...provided.dragHandleProps}
                     ref = {provided.innerRef}
                 >
-                    {this.props.task.taskTitle}
+                    <p>{this.props.task.taskTitle}</p>
+                    <Description>{this.props.task.taskDescription}</Description>
                 </Container>
             )}
         </Draggable>

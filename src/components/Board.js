@@ -20,9 +20,12 @@ export function Board() {
         dispatch(setColumnOrders(dataset.columnOrder));
     },[dispatch]);
 
+    const onDragEnd = result => {
+        // TODO: reorder column
+    }
   
     return (
-        <DragDropContext onDragEnd={() => true}>
+        <DragDropContext onDragEnd={onDragEnd}>
             {selected.columnOrder.map(columnId => {
                 const column = selected.columns[columnId];
                 const tasks = column.taskIds.map(taskId => selected.tasks[taskId]);

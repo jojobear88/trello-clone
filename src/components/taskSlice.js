@@ -30,15 +30,18 @@ export const taskSlice = createSlice({
 
     // Add new reducers here
     setAllTasks: (state, action) => {
-      state.tasks = action.payload.tasks
+      state.tasks = action.payload
     },
     setAllColumns: (state, action) => {
-      state.columns = action.payload.columns
+      state.columns = action.payload
     },
     setColumnOrders: (state, action) => {
-      state.columnOrder = action.payload.columnOrder
+      state.columnOrder = action.payload
     },
   },
 });
+
+export const { setAllTasks, setAllColumns, setColumnOrders } = taskSlice.actions;
+export const selectTask = (state) => state.task;
 
 export default taskSlice.reducer;

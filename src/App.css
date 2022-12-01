@@ -1,1 +1,8 @@
 /* Add styles here */
+.dnd-layout {
+    display: flex;
+  }
+  .dnd-container {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }

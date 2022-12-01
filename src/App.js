@@ -2,13 +2,18 @@ import React from 'react'
 import './App.css'
 import { Board } from './components/Board'
 import { Counter } from './features/counter/Counter'
+import styled from 'styled-components';
+
+const Container = styled.div``;
 
 function App () {
   return (
-    <h1 style={{color: "white", textAlign: "center"}}>
-      Management Board
+    <Container>
+      <h1 style={{color: "white", textAlign: "center"}}>
+        Management Board
+      </h1>
       <Board></Board>
-    </h1>
+    </Container>
   )
 }
 

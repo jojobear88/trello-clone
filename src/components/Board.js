@@ -9,9 +9,10 @@ import {
     selectTask
 } from './taskSlice';
 import dataset  from './dataset';
+import Column from './Column';
 
 export function Board() {
-    const task = useSelector(selectTask);
+    const selected = useSelector(selectTask);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setAllTasks(dataset.tasks));
@@ -22,16 +23,11 @@ export function Board() {
   
     return (
         <DragDropContext onDragEnd={() => true}>
-            {task.columnOrder.map((item) => (
-                <Droppable droppableId={item} direction='horizontal' type={item} key={item}>
-                    {(provided) => {
-                        return (
-                        <div ref={provided.innerRef} {...provided.droppableProps}>
-                            <span>{task.columns[item].title}</span>
-                        </div>)
-                }}
-                </Droppable>
-            ))}
+            {selected.columnOrder.map(columnId => {
+                const column = selected.columns[columnId];
+                const tasks = column.taskIds.map(taskId => selected.tasks[taskId]);
+                return <Column key={column.id} column={column} task={tasks} />;
+            })}
         </DragDropContext>
     );
 }

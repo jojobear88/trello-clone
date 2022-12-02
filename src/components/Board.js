@@ -23,6 +23,14 @@ export function Board() {
         dispatch(setColumnOrders(dataset.columnOrder));
     },[dispatch]);
 
+    const onDragStart = () => {
+        
+    }
+
+    const onDragUpdate = () => {
+        
+    }
+
     const onDragEnd = result => {
         const { destination, source, draggableId } = result;
 
@@ -58,7 +66,11 @@ export function Board() {
     };
   
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext 
+            onDragStart={onDragStart}
+            onDragUpdate={onDragUpdate}
+            onDragEnd={onDragEnd}
+        >
             {selected.columnOrder.map(columnId => {
                 const column = selected.columns[columnId];
                 const tasks = column.taskIds.map(taskId => selected.tasks[taskId]);

@@ -1,7 +1,7 @@
 // Create the Column component here
 import React from 'react';
 import styled from 'styled-components';
-import Task from './Task';
+import TaskCard from './TaskCard';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
@@ -44,7 +44,7 @@ export default class Column extends React.Component {
                                 isDraggingOver = {snapshot.isDraggingOver}
                             >
                                 {this.props.task.map((task, index) => (
-                                <Task key={task.id} task={task} index={index}/>))}
+                                <TaskCard key={task.id} task={task} index={index}/>))}
                                 {provided.placeholder}
                             </TaskList>
                             )}

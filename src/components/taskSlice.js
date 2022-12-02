@@ -39,13 +39,16 @@ export const taskSlice = createSlice({
       state.columnOrder = action.payload
     },
     dragColumns: (state, action) => {
-      state.initialState.columnOrder = action.payload
+      state.columnOrder = action.payload
     },
     dragTasksSameColumn: (state, action) => {
-      state.initialState.columnOrder = action.payload
+      state.columns = {
+        ...state.columns,
+        [action.payload.id] : action.payload,
+      };
     },
     dragTasksDifferentColumn: (state, action) => {
-      state.initialState.columnOrder = action.payload
+      state.columns = action.payload;
     }
   },
 });

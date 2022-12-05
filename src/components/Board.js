@@ -1,7 +1,7 @@
 // Create the Board component here
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import {
     setAllTasks,
     setAllColumns,
@@ -9,15 +9,11 @@ import {
     dragColumns, 
     dragTasksSameColumn,
     dragTasksDifferentColumn,
-    selectTask,
-    addNewTask,
-    updateTask,
-    deleteTask
+    selectTask
 } from './taskSlice';
 import dataset  from './dataset';
 import Column from './Column';
 import styled from 'styled-components';
-import EditTaskDialog from './EditTaskDialog';
 
 const Container = styled.div`
     display: flex;

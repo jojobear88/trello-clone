@@ -3,6 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import EditTaskDialog from './EditTaskDialog';
+import {
+} from './taskSlice';
 
 const Container = styled.div`
     position: relative;
@@ -33,7 +35,12 @@ export default class TaskCard extends React.Component {
                 >
                     <Title>{this.props.task.taskTitle}</Title>
                     <Description>{this.props.task.taskDescription}</Description>
-                    <EditTaskDialog></EditTaskDialog>
+                    <EditTaskDialog 
+                        colId={this.props.colId} 
+                        taskId={this.props.task.id} 
+                        title={this.props.task.taskTitle} 
+                        desc={this.props.task.taskDescription
+                    }></EditTaskDialog>
                 </Container>
             )}
         </Draggable>

@@ -51,18 +51,21 @@ export const taskSlice = createSlice({
       state.columns = action.payload;
     },
     addNewTask: (state, action) => {
-      state.columns = action.payload;
+      state = action.payload;
     },
     updateTask: (state, action) => {
       state.tasks = action.payload;
     },
     deleteTask: (state, action) => {
-      state.tasks = action.payload;
+      state.columns = action.payload;
     }
   },
 });
 
 export const { 
+  setCurrTaskIdToEdit,
+  setCurrColIdToEdit,
+  setDialogStatus,
   setAllTasks, 
   setAllColumns, 
   setColumnOrders, 
@@ -73,6 +76,7 @@ export const {
   updateTask,
   deleteTask
 } = taskSlice.actions;
+
 export const selectTask = (state) => state.task;
 
 export default taskSlice.reducer;

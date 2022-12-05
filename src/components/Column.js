@@ -3,14 +3,15 @@ import React from 'react';
 import styled from 'styled-components';
 import TaskCard from './TaskCard';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import TaskAddButton from './TaskAddButton';
 
 const Container = styled.div`
     margin: 8px;
     border: 1px solid lightgrey;
     border-radius: 2px;
-    background-color: white;
+    background-color: #ebecf0;
     color: black;
-    width: 400px;
+    width: 320px;
 
     display: flex;
     flex-direction: column;
@@ -21,9 +22,9 @@ const Title = styled.h3`
 const TaskList = styled.div`
     padding: 8px;
     transition: background-color 0.2s ease;
-    background-color: ${props => (props.isDraggingOver ? 'lightblue' : 'white')};
-    flex-grow: 1;
-    min-height: 100px;
+    background-color: ${props => (props.isDraggingOver ? 'lightblue' : 'ebecf0')};
+    // flex-grow: 1;
+    // min-height: 100px;
 `;
 
 export default class Column extends React.Component {
@@ -31,10 +32,11 @@ export default class Column extends React.Component {
         return (
             <Draggable draggableId={this.props.column.id} index={this.props.index}>
                 {(provided) => (
-                    <Container
+                    <div
                         {...provided.draggableProps}
                         ref = {provided.innerRef}
                     >
+                        <Container>
                         <Title {...provided.dragHandleProps}>{this.props.column.title}</Title>
                         <Droppable droppableId={this.props.column.id} type='task'>
                             {(provided, snapshot) => (
@@ -49,7 +51,9 @@ export default class Column extends React.Component {
                             </TaskList>
                             )}
                         </Droppable>
-                    </Container>
+                        <TaskAddButton></TaskAddButton>
+                        </Container>
+                    </div>
                 )}
             </Draggable>
         )

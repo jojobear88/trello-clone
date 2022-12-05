@@ -49,11 +49,30 @@ export const taskSlice = createSlice({
     },
     dragTasksDifferentColumn: (state, action) => {
       state.columns = action.payload;
+    },
+    addNewTask: (state, action) => {
+      state.columns = action.payload;
+    },
+    updateTask: (state, action) => {
+      state.tasks = action.payload;
+    },
+    deleteTask: (state, action) => {
+      state.tasks = action.payload;
     }
   },
 });
 
-export const { setAllTasks, setAllColumns, setColumnOrders, dragColumns, dragTasksSameColumn, dragTasksDifferentColumn } = taskSlice.actions;
+export const { 
+  setAllTasks, 
+  setAllColumns, 
+  setColumnOrders, 
+  dragColumns, 
+  dragTasksSameColumn, 
+  dragTasksDifferentColumn,
+  addNewTask,
+  updateTask,
+  deleteTask
+} = taskSlice.actions;
 export const selectTask = (state) => state.task;
 
 export default taskSlice.reducer;

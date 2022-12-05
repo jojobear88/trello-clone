@@ -9,11 +9,15 @@ import {
     dragColumns, 
     dragTasksSameColumn,
     dragTasksDifferentColumn,
-    selectTask
+    selectTask,
+    addNewTask,
+    updateTask,
+    deleteTask
 } from './taskSlice';
 import dataset  from './dataset';
 import Column from './Column';
 import styled from 'styled-components';
+import EditTaskDialog from './EditTaskDialog';
 
 const Container = styled.div`
     display: flex;

@@ -2,8 +2,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
+import EditTaskDialog from './EditTaskDialog';
 
 const Container = styled.div`
+    position: relative;
     border: 1px solid lightgrey;
     border-radius: 2px;
     padding: 8px;
@@ -29,8 +31,9 @@ export default class TaskCard extends React.Component {
                     ref = {provided.innerRef}
                     isDragging = {snapshot.isDragging}
                 >
-                    <p>{this.props.task.taskTitle}</p>
+                    <Title>{this.props.task.taskTitle}</Title>
                     <Description>{this.props.task.taskDescription}</Description>
+                    <EditTaskDialog></EditTaskDialog>
                 </Container>
             )}
         </Draggable>

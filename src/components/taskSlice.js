@@ -1,4 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { db } from '../firebase';
+import {
+    doc,
+    setDoc,
+    arrayUnion,
+    updateDoc
+} from 'firebase/firestore'
 
 const initialState = {
   tasks: {},
@@ -40,24 +47,66 @@ export const taskSlice = createSlice({
     },
     dragColumns: (state, action) => {
       state.columnOrder = action.payload
+
+      // firebase
+      const columnOrderRef = doc(db, "columnOrder", "col-order");
+      setDoc(columnOrderRef, {columnOrder: state.columnOrder});
     },
     dragTasksSameColumn: (state, action) => {
       state.columns = {
         ...state.columns,
         [action.payload.id] : action.payload,
       };
+
+      // firebase
+      const columnsRef = doc(db, "columns", action.payload.id);
+      updateDoc(columnsRef, state.columns);
     },
     dragTasksDifferentColumn: (state, action) => {
-      state.columns = action.payload;
+      const {start, finish} = action.payload;
+        
+      state.columns = {
+        ...state.columns,
+        [start.id]: start,
+        [finish.id]: finish,
+      };
+
+      // firebase
+      let columnsRef = doc(db, "columns", start.id);
+      updateDoc(columnsRef, start);
+      columnsRef = doc(db, "columns", finish.id);
+      updateDoc(columnsRef, finish);
     },
     addNewTask: (state, action) => {
-      state = action.payload;
+      const {taskId, colId} = action.payload;
+      const newTask = {id: taskId, taskTitle: "New Task", taskDescription: ""}
+      state.tasks[taskId] = newTask;
+      state.columns[colId].taskIds.push(taskId);
+
+      // firebase
+      const taskRef = doc(db, "tasks", taskId);
+      setDoc(taskRef, newTask);
+
+      const colRef = doc(db, "columns", colId);
+      updateDoc(colRef, {taskIds: arrayUnion(taskId)});
     },
     updateTask: (state, action) => {
       state.tasks = action.payload;
+
+      // firebase
+      const taskRef = doc(db, "tasks", action.payload.id);
+      setDoc(taskRef, state.tasks);
     },
     deleteTask: (state, action) => {
-      state.columns = action.payload;
+      const {colId, taskIds} = action.payload;
+      state.columns[colId] = {
+          ...state.columns[colId],
+          taskIds: taskIds
+      }
+
+      // firebase
+      const colRef = doc(db, "columns", colId);
+      updateDoc(colRef, {taskIds: taskIds});
     }
   },
 });

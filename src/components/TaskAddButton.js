@@ -9,8 +9,7 @@ import {
     selectTask,
     setCurrTaskIdToEdit,
     setCurrColIdToEdit,
-    setAllColumns,
-    setAllTasks
+    addNewTask
 } from './taskSlice';
 
 const Container = styled.div`
@@ -28,29 +27,28 @@ export default function TaskAddButton(props) {
     },[dispatch]);
 
     const handleAdd = () => {
-        console.log(newTaskId);
-        const newTaskIds = Array.from(selected.columns[props.colId].taskIds);
-        newTaskIds.push(newTaskId);
-        const newData = {
-            ...selected,
-            tasks: {
-                ...selected.tasks,
-                [newTaskId] : {
-                    id: newTaskId,
-                    taskTitle: 'New Task',
-                    taskDescription: ''
-                }
-            },
-            columns: {
-                ...selected.columns,
-                [props.colId]: {
-                    ...selected.columns[props.colId],
-                    taskIds: newTaskIds
-                }
-            }
-        }
-        dispatch(setAllTasks(newData.tasks));
-        dispatch(setAllColumns(newData.columns));
+        // console.log(newTaskId);
+        // const newTaskIds = Array.from(selected.columns[props.colId].taskIds);
+        // newTaskIds.push(newTaskId);
+        // const newData = {
+        //     ...selected,
+        //     tasks: {
+        //         ...selected.tasks,
+        //         [newTaskId] : {
+        //             id: newTaskId,
+        //             taskTitle: 'New Task',
+        //             taskDescription: ''
+        //         }
+        //     },
+        //     columns: {
+        //         ...selected.columns,
+        //         [props.colId]: {
+        //             ...selected.columns[props.colId],
+        //             taskIds: newTaskIds
+        //         }
+        //     }
+        // }
+        dispatch(addNewTask({taskId: newTaskId, colId: props.colId}));
     }
 
     return (

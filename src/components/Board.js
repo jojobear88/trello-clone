@@ -87,16 +87,7 @@ export function Board() {
             ...finish,
             taskIds: finishTaskIds
         };
-        
-        const newState = {
-            ...selected,
-            columns: {
-                ...selected.columns,
-                [newStart.id]: newStart,
-                [newFinish.id]: newFinish,
-            },
-        };
-        dispatch(dragTasksDifferentColumn(newState.columns));
+        dispatch(dragTasksDifferentColumn({start: newStart, finish: newFinish}));
     };
   
     return (

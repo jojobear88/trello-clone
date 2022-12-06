@@ -1,40 +1,39 @@
-var admin = require("firebase-admin");
+import { db } from "./firebase";
+import { doc, setDoc } from "firebase/firestore";
 
-var serviceAccount = require("./service_key.json");
+(() => {
+  const columns = [
+    { id: "column-1", title: "Todo", taskIds: ["task-1"] },
+    { id: "column-2", title: "In progress", taskIds: [] },
+    { id: "column-3", title: "Review", taskIds: [] },
+    { id: "column-4", title: "Completed", taskIds: [] },
+  ];
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://<YOUR_DATABASE_NAME>.firebaseio.com"
-});
+  const columnOrder = ["column-1", "column-2", "column-3", "column-4"];
 
-var db = admin.firestore();
+  // Add columns data to the database
+  columns.forEach(function (obj) {
+    const columnRef = doc(db, "columns", obj.id);
+    setDoc(columnRef, {
+      id: obj.id,
+      title: obj.title,
+      taskIds: obj.taskIds,
+    });
+  });
 
-const columns = [
-  { id: "column-1", title: "Todo", taskIds: ["task-1"] },
-  { id: "column-2", title: "In progress", taskIds: [] },
-  { id: "column-3", title: "Review", taskIds: [] },
-  { id: "column-4", title: "Completed", taskIds: [] }
-]
+  // Add column order to the database
+  const columnOrderRef = doc(db, "columnOrder", "col-order");
+  setDoc(columnOrderRef, {
+    columnOrder: columnOrder,
+  });
 
-const columnOrder = ["column-1", "column-2", "column-3", "column-4"]
-
-// Add columns data to the database
-columns.forEach(function(obj) {
-  db.collection('columns').doc(obj.id).set({
-    id: obj.id,
-    title: obj.title,
-    taskIds: obj.taskIds
+  // Add a task to the database
+  const tasksRef = doc(db, "tasks", "task-1");
+  setDoc(tasksRef, {
+    id: "task-1",
+    taskTitle: "Demo Task",
+    taskDescription: "To be added...",
+  }).then(e => {
+    console.log(e);
   })
-});
-
-// Add column order to the database
-db.collection('columnOrder').doc("col-order").set({
-  columnOrder: columnOrder
-})
-
-// Add a task to the database
-db.collection('tasks').doc("task-1").set({
-  id: "task-1",
-  taskTitle: "Demo Task",
-  taskDescription: "To be added..."
-})
+})();

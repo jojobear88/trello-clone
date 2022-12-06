@@ -3,6 +3,7 @@ import './App.css'
 import { Board } from './components/Board'
 import { Counter } from './features/counter/Counter'
 import styled from 'styled-components';
+// import "./databaseSetup";
 
 const Container = styled.div``;
 

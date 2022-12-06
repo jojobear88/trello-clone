@@ -11,9 +11,12 @@ import {
     dragTasksDifferentColumn,
     selectTask
 } from './taskSlice';
-import dataset  from './dataset';
+// import dataset  from './dataset';
 import Column from './Column';
 import styled from 'styled-components';
+import { db } from '../firebase';
+import { collection, query, onSnapshot } from 'firebase/firestore';
+
 
 const Container = styled.div`
     display: flex;
@@ -22,10 +25,38 @@ const Container = styled.div`
 export function Board() {
     const selected = useSelector(selectTask);
     const dispatch = useDispatch();
+
     useEffect(() => {
-        dispatch(setAllTasks(dataset.tasks));
-        dispatch(setAllColumns(dataset.columns));
-        dispatch(setColumnOrders(dataset.columnOrder));
+        // get all tasks in collection
+        const taskQuery = query(collection(db, "tasks"));
+        onSnapshot(taskQuery, (res) =>{
+            dispatch(setAllTasks(res.docs.reduce(
+                (tasksData, d) => ({ ...tasksData, [d.id]: d.data() }),
+                {}
+              )));
+        })
+
+        // get all columns in collection
+        const columnQuery = query(collection(db, "columns"));
+        onSnapshot(columnQuery, (res) =>{
+            dispatch(
+                setAllColumns(
+                  res.docs.reduce(
+                    (columnsData, d) => ({ ...columnsData, [d.id]: d.data() }),
+                    {}
+                  )
+                )
+            );
+        })
+
+        // get column order in collection
+        const colOrderQuery = query(collection(db, "columnOrder"));
+        onSnapshot(colOrderQuery, (res) => {
+            dispatch(
+                setColumnOrders(res.docs.map((d) => d.data().columnOrder).flat())
+            );
+        });
+        // dispatch(setColumnOrders(dataset.columnOrder));
     },[dispatch]);
 
     const onDragStart = () => {
@@ -103,8 +134,10 @@ export function Board() {
                         ref = {provided.innerRef}
                     >
                         {selected.columnOrder.map((columnId, index) => {
-                            const column = selected.columns[columnId];
-                            const tasks = column.taskIds.map(taskId => selected.tasks[taskId]);
+                            let column = selected.columns[columnId];
+                            console.log(column);
+                            let tasks = column.taskIds.map(taskId => selected.tasks[taskId]);
+                            console.log(tasks);
                             return <Column key={column.id} column={column} task={tasks} index={index} />;
                         })}
                         {provided.placeholder}

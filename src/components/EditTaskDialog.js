@@ -45,29 +45,17 @@ export default function EditTaskDialog(props) {
         const newTaskIds = Array.from(currentColumn.taskIds);
         const delIdx = newTaskIds.findIndex(x => x.id === props.taskId);
         newTaskIds.splice(delIdx, 1);
-        // const newColumns = {
-        //     ...selected.columns,
-        //     [currentColumn.id]: {
-        //         id: currentColumn.id,
-        //         title: currentColumn.title,
-        //         taskIds: newTaskIds
-        //     }
-        // }
-        // console.log(newColumns);
         dispatch(deleteTask({colId: currentColumn.id, taskIds: newTaskIds}));
         setOpen(false);
     }
     
     const handleSave = () => {
-        const newTasks = {
-            ...selected.tasks,
-            [currentTask.id] : {
-                id: currentTask.id,
-                taskTitle: title,
-                taskDescription: desc
-            }
-        }
-        dispatch(updateTask(newTasks));
+        
+        dispatch(updateTask({
+            id: currentTask.id,
+            title: title,
+            desc: desc
+        }));
         setOpen(false);
     };
 

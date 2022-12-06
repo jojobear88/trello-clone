@@ -91,11 +91,13 @@ export const taskSlice = createSlice({
       updateDoc(colRef, {taskIds: arrayUnion(taskId)});
     },
     updateTask: (state, action) => {
-      state.tasks = action.payload;
+      const {id, title, desc} = action.payload;
+      const updateTask = {id: id, taskTitle: title, taskDescription: desc}
+      state.tasks[id] = updateTask;
 
       // firebase
-      const taskRef = doc(db, "tasks", action.payload.id);
-      setDoc(taskRef, state.tasks);
+      const taskRef = doc(db, "tasks", id);
+      setDoc(taskRef, updateTask);
     },
     deleteTask: (state, action) => {
       const {colId, taskIds} = action.payload;
